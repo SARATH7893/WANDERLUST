@@ -93,6 +93,15 @@ next();
 // res.send(registeredUser);
 // });
 
+app.post("/listings/:title",async (req,res)=>{
+    if(!req.body.listing){
+      throw new ExpressError(400,"Type valid title");
+    }
+    let{searchTitle}=req.params;
+    await Listing.findById(title,{...req.body.listing});
+    res.redirect(`/listings/${id}`);
+  });
+
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter);
