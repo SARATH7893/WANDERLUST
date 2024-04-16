@@ -93,14 +93,19 @@ next();
 // res.send(registeredUser);
 // });
 
-app.post("/listings/:title",async (req,res)=>{
-    if(!req.body.listing){
-      throw new ExpressError(400,"Type valid title");
-    }
-    let{searchTitle}=req.params;
-    await Listing.findById(title,{...req.body.listing});
-    res.redirect(`/listings/${id}`);
-  });
+app.post("/listings/:title", async (req, res) => {
+  console.log("req.body:", req.body); 
+  console.log("req.body.listing:", req.body.listing); 
+
+  if (!req.body || !req.body.listing) {
+    console.log("Inside if block, throwing error...");
+    throw new ExpressError(400, "Type valid title");
+  }
+
+  let { title } = req.params;
+  await Listing.findById(title, { ...req.body.listing });
+  res.redirect(`/listings/${title}`);
+}); 
 
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
